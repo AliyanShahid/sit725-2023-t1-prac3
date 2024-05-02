@@ -1,0 +1,62 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                echo "Fetch Source Code"
+                git branch: 'main' , url:'https://github.com/AliyanShahid/sit725-2023-t1-prac3'
+                echo "Compile the code"
+            }
+        }
+        
+        stage('Unit and Integration Tests') {
+            steps {
+                echo 'Executing unit tests...'
+                echo 'Conducting integration tests...'
+            }
+        }
+        
+        stage('Code Analysis') {
+            steps {
+                echo 'Performing code analysis via SonarQube...'
+            }
+        }
+        
+        stage('Security Scan') {
+            steps {
+                echo 'Conducting security evaluation using OWASP ZAP...'
+            }
+        }
+        
+        stage('Deploy to Staging') {
+            steps {
+                echo 'Deploying application to staging environment (e.g., AWS EC2 instance)...'
+            }
+        }
+        
+        stage('Integration Tests on Staging') {
+            steps {
+                echo 'Executing integration tests on staging environment...'
+            }
+        }
+        
+        stage('Deploy to Production') {
+            steps {
+                echo 'Deploying application to production server (e.g., AWS EC2 instance)...'
+            }
+        }
+    }
+    post {
+        success {
+           mail to:"aliyansatti98@gmail.com",
+                    subject: "Build Status Email",
+                    body: "Build Was Successful"
+        }
+        failure {
+          mail to:"aliyansatti98@gmail.com",
+                    subject: "Build Status Email",
+                    body: "Build Was Failed"
+        }
+    }
+}
